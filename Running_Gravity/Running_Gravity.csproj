@@ -99,5 +99,11 @@
   <ItemGroup>
     <None Include="Resources\run_up01.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\background_music.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gameOverSound.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
