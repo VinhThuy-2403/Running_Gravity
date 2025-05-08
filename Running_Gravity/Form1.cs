@@ -21,11 +21,12 @@ namespace Running_Gravity
         int score = 0;
         int highScore = 0;
         bool gameOver = false;
+        private bool isPaused = false;
 
         SoundPlayer backgroundMusic;
         SoundPlayer GameOverSound;
         Random random = new Random();
-
+        private bool isMusicOn;
         PictureBox jet;
         Timer jetMoveTimer = new Timer();
         Timer jetShootTimer = new Timer();
@@ -33,17 +34,43 @@ namespace Running_Gravity
         int jetSpeed = 3;
         private int jetMoveChangeCounter = 0;
 
-        public Game()
+        public Game(SoundPlayer sharedMusic, bool musicOn, string difficulty)
         {
             InitializeComponent();
-            backgroundMusic = new SoundPlayer(Properties.Resources.background_music);
+            backgroundMusic = sharedMusic;
+            isMusicOn = musicOn;
             GameOverSound = new SoundPlayer(Properties.Resources.gameOverSound);
-            backgroundMusic.PlayLooping();
+            SetDifficulty(difficulty);
+            if (isMusicOn)
+                backgroundMusic.PlayLooping();
+            else
+                backgroundMusic.Stop(); 
             RestartGame();
+        }
+        private void SetDifficulty(string level)
+        {
+            switch (level)
+            {
+                case "Dễ":
+                    gravityValue = 8;
+                    obstacleSpeed = 10;
+                    break;
+                case "Trung bình":
+                    gravityValue = 15;
+                    obstacleSpeed = 20;
+                    break;
+                case "Khó":
+                    gravityValue = 30;
+                    obstacleSpeed = 30;
+                    break;
+            }
+
+
         }
 
         private void Game_Load(object sender, EventArgs e)
         {
+
         }
 
         private void GameTimerEvent(object sender, EventArgs e)
@@ -103,10 +130,20 @@ namespace Running_Gravity
                     }
                 }
             }
+            if (score > 10)
+            {
+                obstacleSpeed += 5;
+                gravityValue += 5;
+            }
+            if (score > 20)
+            {
+                obstacleSpeed += 15;
+                gravityValue += 15;
+            }
 
-            if (score > 5) { obstacleSpeed = 15; gravityValue = 12; }
-            if (score > 10) { obstacleSpeed = 20; gravityValue = 15; }
-            if (score > 20) { obstacleSpeed = 25; gravityValue = 20; }
+            //if (score > 5) { obstacleSpeed = 15; gravityValue = 12; }
+            //if (score > 10) { obstacleSpeed = 20; gravityValue = 15; }
+            //if (score > 20) { obstacleSpeed = 25; gravityValue = 20; }
         }
 
         private void JetMoveTimer_Tick(object sender, EventArgs e)
@@ -192,7 +229,10 @@ namespace Running_Gravity
             gravityValue = 8;
             gravity = 0;
             obstacleSpeed = 10;
-            backgroundMusic.PlayLooping();
+            if (isMusicOn)
+                backgroundMusic.PlayLooping();
+            else
+                backgroundMusic.Stop();
             gameOver = false;
 
             foreach (Control x in this.Controls)
