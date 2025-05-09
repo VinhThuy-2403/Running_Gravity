@@ -22,7 +22,9 @@ namespace Running_Gravity
         int highScore = 0;
         bool gameOver = false;
         private bool isPaused = false;
-
+        // biến đánh dấu tăng chỉ số 1 lần duy nhất tại mốc 5đ và 10đ
+        bool boostedAt5 = false;
+        bool boostedAt10 = false;
         SoundPlayer backgroundMusic;
         SoundPlayer GameOverSound;
         Random random = new Random();
@@ -34,11 +36,14 @@ namespace Running_Gravity
         int jetSpeed = 3;
         private int jetMoveChangeCounter = 0;
 
-        public Game(SoundPlayer sharedMusic, bool musicOn)
+        public Game(SoundPlayer sharedMusic, bool musicOn, int gravityValue1, int obstacleSpeed1, int jetShootInterval)
         {
             InitializeComponent();
             backgroundMusic = sharedMusic;
             isMusicOn = musicOn;
+            gravityValue = gravityValue1;
+            obstacleSpeed = obstacleSpeed1;
+            jetShootTimer.Interval = jetShootInterval;
             GameOverSound = new SoundPlayer(Properties.Resources.gameOverSound);
             if (isMusicOn)
                 backgroundMusic.PlayLooping();
@@ -109,20 +114,19 @@ namespace Running_Gravity
                     }
                 }
             }
-            if (score > 5)
+            if(score >= 5 && !boostedAt5)
+{
+                obstacleSpeed += 3;
+                gravityValue += 3;
+                boostedAt5 = true;
+            }
+
+            if (score >= 10 && !boostedAt10)
             {
                 obstacleSpeed += 5;
                 gravityValue += 5;
+                boostedAt10 = true;
             }
-            if (score > 15)
-            {
-                obstacleSpeed += 15;
-                gravityValue += 15;
-            }
-
-            //if (score > 5) { obstacleSpeed = 15; gravityValue = 12; }
-            //if (score > 10) { obstacleSpeed = 20; gravityValue = 15; }
-            //if (score > 20) { obstacleSpeed = 25; gravityValue = 20; }
         }
 
         private void JetMoveTimer_Tick(object sender, EventArgs e)
@@ -199,17 +203,13 @@ namespace Running_Gravity
 
         private void RestartGame()
         {
-            StartForm startForm = new StartForm();
             lbScore.Parent = pictureBox1;
             lbHighScore.Parent = pictureBox2;
             lbHighScore.Top = 5;
             player.Location = new Point(150, 292);
             player.Image = Properties.Resources.run_down0;
             score = 0;
-            this.gravityValue = startForm.gravityValue;
             gravity = 0;
-            this.obstacleSpeed = startForm.obstacleSpeed;
-            this.jetShootTimer.Interval = startForm.jetShootTimer;
             if (isMusicOn)
                 backgroundMusic.PlayLooping();
             else
@@ -243,9 +243,7 @@ namespace Running_Gravity
             // ✅ Gán lại chính xác 1 lần
             jetMoveTimer.Interval = 20;
             jetMoveTimer.Tick += JetMoveTimer_Tick;
-            jetMoveTimer.Start();
-
-            //jetShootTimer.Interval = 1000;
+            jetMoveTimer.Start();   
             jetShootTimer.Tick += JetShootTimer_Tick;
             jetShootTimer.Start();
 
@@ -263,7 +261,6 @@ namespace Running_Gravity
             lbScore.Text += " Game Over!! Press \"R\" to Restart.";
             gameOver = true;
         }
-
         private void player_Click(object sender, EventArgs e)
         {
         }

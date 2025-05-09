@@ -39,7 +39,7 @@ namespace Running_Gravity
             {
                 selectedDifficulty = cmbDifficulty.SelectedItem.ToString();
             }
-            Game gameForm = new Game(backgroundMusic, IsMusicOn);
+            Game gameForm = new Game(backgroundMusic, IsMusicOn, gravityValue, obstacleSpeed, jetShootTimer);
             gameForm.FormClosed += (s, args) => this.Close();
             gameForm.Show();
         }
@@ -79,13 +79,13 @@ namespace Running_Gravity
             else if (Value == "Medium")
             {
                 this.gravityValue = 15;
-                this.obstacleSpeed = 20;
+                this.obstacleSpeed = 15;
                 this.jetShootTimer = 1000;
             }
             else if(Value == "High")
             {
-                this.gravityValue = 20;
-                this.obstacleSpeed = 25;
+                this.gravityValue = 18;
+                this.obstacleSpeed = 18;
                 this.jetShootTimer = 500;
             }
         }
