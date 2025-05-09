@@ -75,6 +75,7 @@
             // 
             // Sound
             // 
+            this.Sound.BackColor = System.Drawing.Color.Transparent;
             this.Sound.BackgroundImage = global::Running_Gravity.Properties.Resources.sound;
             this.Sound.Location = new System.Drawing.Point(864, 4);
             this.Sound.Name = "Sound";

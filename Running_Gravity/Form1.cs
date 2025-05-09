@@ -199,6 +199,26 @@ namespace Running_Gravity
             {
                 RestartGame();
             }
+            // Tạm dừng và tiếp tục trò chơi bằng phím enter
+            if(e.KeyCode == Keys.Enter && gameOver == false)
+            {
+                isPaused = !isPaused;
+                if (isPaused)
+                {
+                    gameTimer.Stop();
+                    jetMoveTimer.Stop();
+                    jetShootTimer.Stop();
+                    backgroundMusic.Stop();
+                }
+                else
+                {
+                    gameTimer.Start();
+                    jetMoveTimer.Start();
+                    jetShootTimer.Start();
+                    if (isMusicOn)
+                        backgroundMusic.PlayLooping();
+                }
+            }
         }
 
         private void RestartGame()
