@@ -82,6 +82,16 @@ namespace Running_Gravity.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BackGround_StartGame {
+            get {
+                object obj = ResourceManager.GetObject("BackGround_StartGame", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap box {
             get {
                 object obj = ResourceManager.GetObject("box", resourceCulture);
@@ -95,6 +105,16 @@ namespace Running_Gravity.Properties {
         internal static System.IO.UnmanagedMemoryStream gameOverSound {
             get {
                 return ResourceManager.GetStream("gameOverSound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap nosound {
+            get {
+                object obj = ResourceManager.GetObject("nosound", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -134,6 +154,16 @@ namespace Running_Gravity.Properties {
         internal static System.Drawing.Bitmap run_up0 {
             get {
                 object obj = ResourceManager.GetObject("run_up0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sound {
+            get {
+                object obj = ResourceManager.GetObject("sound", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

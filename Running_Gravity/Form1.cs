@@ -16,8 +16,8 @@ namespace Running_Gravity
     {
         string highScoreFile = "highscore.txt";
         int gravity;
-        int gravityValue = 8;
-        int obstacleSpeed = 10;
+        int gravityValue;
+        int obstacleSpeed;
         int score = 0;
         int highScore = 0;
         bool gameOver = false;
@@ -34,38 +34,17 @@ namespace Running_Gravity
         int jetSpeed = 3;
         private int jetMoveChangeCounter = 0;
 
-        public Game(SoundPlayer sharedMusic, bool musicOn, string difficulty)
+        public Game(SoundPlayer sharedMusic, bool musicOn)
         {
             InitializeComponent();
             backgroundMusic = sharedMusic;
             isMusicOn = musicOn;
             GameOverSound = new SoundPlayer(Properties.Resources.gameOverSound);
-            SetDifficulty(difficulty);
             if (isMusicOn)
                 backgroundMusic.PlayLooping();
             else
                 backgroundMusic.Stop(); 
             RestartGame();
-        }
-        private void SetDifficulty(string level)
-        {
-            switch (level)
-            {
-                case "Dễ":
-                    gravityValue = 8;
-                    obstacleSpeed = 10;
-                    break;
-                case "Trung bình":
-                    gravityValue = 15;
-                    obstacleSpeed = 20;
-                    break;
-                case "Khó":
-                    gravityValue = 30;
-                    obstacleSpeed = 30;
-                    break;
-            }
-
-
         }
 
         private void Game_Load(object sender, EventArgs e)
@@ -130,12 +109,12 @@ namespace Running_Gravity
                     }
                 }
             }
-            if (score > 10)
+            if (score > 5)
             {
                 obstacleSpeed += 5;
                 gravityValue += 5;
             }
-            if (score > 20)
+            if (score > 15)
             {
                 obstacleSpeed += 15;
                 gravityValue += 15;
@@ -220,15 +199,17 @@ namespace Running_Gravity
 
         private void RestartGame()
         {
+            StartForm startForm = new StartForm();
             lbScore.Parent = pictureBox1;
             lbHighScore.Parent = pictureBox2;
             lbHighScore.Top = 5;
             player.Location = new Point(150, 292);
             player.Image = Properties.Resources.run_down0;
             score = 0;
-            gravityValue = 8;
+            this.gravityValue = startForm.gravityValue;
             gravity = 0;
-            obstacleSpeed = 10;
+            this.obstacleSpeed = startForm.obstacleSpeed;
+            this.jetShootTimer.Interval = startForm.jetShootTimer;
             if (isMusicOn)
                 backgroundMusic.PlayLooping();
             else
@@ -264,7 +245,7 @@ namespace Running_Gravity
             jetMoveTimer.Tick += JetMoveTimer_Tick;
             jetMoveTimer.Start();
 
-            jetShootTimer.Interval = 1000;
+            //jetShootTimer.Interval = 1000;
             jetShootTimer.Tick += JetShootTimer_Tick;
             jetShootTimer.Start();
 

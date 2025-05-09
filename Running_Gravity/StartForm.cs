@@ -15,40 +15,78 @@ namespace Running_Gravity
     public partial class StartForm : Form
     {
         public SoundPlayer backgroundMusic;
-        public bool isMusicOn => Bg_Music.Checked;
+        public bool IsMusicOn = true;
+        public int gravityValue { get; set;}
+        public int obstacleSpeed { get; set;}
+        public int jetShootTimer { get; set;}
         public StartForm()
         {
             backgroundMusic = new SoundPlayer(Properties.Resources.background_music);
             InitializeComponent();
         }
 
-        private void Start_Click(object sender, EventArgs e)
+      
+        private void label2_Click(object sender, EventArgs e)
         {
             this.Hide();
             string selectedDifficulty;
 
             if (cmbDifficulty.SelectedItem == null)
             {
-                selectedDifficulty = "Trung bình"; // hoặc hiện thông báo lỗi
+                selectedDifficulty = "Medium"; // hoặc hiện thông báo lỗi
             }
             else
             {
                 selectedDifficulty = cmbDifficulty.SelectedItem.ToString();
             }
-            Game gameForm = new Game(backgroundMusic, isMusicOn, selectedDifficulty); 
+            Game gameForm = new Game(backgroundMusic, IsMusicOn);
             gameForm.FormClosed += (s, args) => this.Close();
             gameForm.Show();
         }
 
-        private void Bg_Music_CheckedChanged(object sender, EventArgs e)
+        private void Sound_Click(object sender, EventArgs e)
         {
-            if (Bg_Music.Checked)
+            if (IsMusicOn)
             {
-                backgroundMusic.PlayLooping();
+                // Tắt âm thanh
+                backgroundMusic.Stop();
+                Sound.Image = Properties.Resources.nosound;
+                IsMusicOn = false;
             }
             else
             {
-               backgroundMusic.Stop();
+                // Bật lại âm thanh
+                backgroundMusic.PlayLooping();
+                Sound.Image = Properties.Resources.sound;
+                IsMusicOn = true;
+            }
+        }
+
+        private void StartForm_Load(object sender, EventArgs e)
+        {
+            Sound.Image = Properties.Resources.sound;
+            backgroundMusic.PlayLooping();
+        }
+
+        private void cmbDifficulty_SelectedIndexChanged(object sender, EventArgs e)
+        {   
+            string Value = cmbDifficulty.SelectedItem.ToString();
+            if (Value == "Low") {
+                this.gravityValue = 8;
+                this.obstacleSpeed = 10;
+                this.jetShootTimer = 2000;
+            }
+            else if (Value == "Medium")
+            {
+                this.gravityValue = 15;
+                this.obstacleSpeed = 20;
+                this.jetShootTimer = 1000;
+            }
+            else if(Value == "High")
+            {
+                this.gravityValue = 20;
+                this.obstacleSpeed = 25;
+                this.jetShootTimer = 500;
             }
         }
     }
